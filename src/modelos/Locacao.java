@@ -8,6 +8,7 @@ public class Locacao {
     private Veiculo veiculo;
     private LocalDate dataInicial;
     private LocalDate dataFinal;
+    private static int proximoCodigo = 1;
 
     public Locacao(int codigo, Cliente cliente, Veiculo veiculo, LocalDate dataInicial, LocalDate dataFinal) {
         this.codigo = codigo;
@@ -16,6 +17,14 @@ public class Locacao {
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
     }
+
+    public Locacao(Cliente cliente, Veiculo veiculo, LocalDate datinicio, LocalDate datfinal) {
+    this.codigo = proximoCodigo++;
+    this.cliente = cliente;
+    this.veiculo = veiculo;
+    this.dataInicial = datinicio;
+    this.dataFinal = datfinal;
+}
 
     public int getCodigo() {
         return codigo;

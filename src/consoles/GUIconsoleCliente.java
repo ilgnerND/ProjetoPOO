@@ -6,17 +6,32 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelos.Cliente;
 
+/**
+ * Classe que representa a interface gráfica do console para gerenciamento de clientes.
+ */
+
 public class GUIconsoleCliente {
     private GerenciadorClientes gerenciadorClientes;
+
+
+    /**
+     * Construtor da classe GUIconsoleCliente.
+     * 
+     * @param gerenciadorClientes o gerenciador de clientes a ser utilizado
+     */
 
     public GUIconsoleCliente(GerenciadorClientes gerenciadorClientes) {
         this.gerenciadorClientes = gerenciadorClientes;
     }
 
+    /**
+     * Exibe o menu de opções para o gerenciamento de clientes.
+     */
     public void exibeMenuCliente() {
         Stage stage = new Stage();
         stage.setTitle("Cadastro de Clientes");
@@ -45,6 +60,9 @@ public class GUIconsoleCliente {
         stage.show();
     }
 
+    /**
+     * Exibe a tela para inclusão de um novo cliente.
+     */
     private void exibeTelaIncluirCliente() {
         
         Stage stage = new Stage();
@@ -82,24 +100,29 @@ public class GUIconsoleCliente {
                 gerenciadorClientes.add(cliente);
 
                 System.out.println("Cliente incluído com sucesso!");
+            exibirMensagem("Sucesso", "Cliente incluído com sucesso!");
 
-                stage.close();
-            } catch (NumberFormatException ex) {
-                System.out.println("CPF inválido! Digite apenas números.");
-            } catch (ClienteExistenteException ex) {
-                System.out.println(ex.getMessage());
-            }
-        });
+            stage.close();
+        } catch (NumberFormatException ex) {
+            System.out.println("CPF inválido! Digite apenas números.");
+            exibirMensagem("Erro", "CPF inválido! Digite apenas números.");
+        } catch (ClienteExistenteException ex) {
+            System.out.println(ex.getMessage());
+            exibirMensagem("Erro", ex.getMessage());
+        }
+    });
 
         vbox.getChildren().addAll(lblNome, txtNome, lblCPF, txtCPF, lblNumCarteira, txtNumCarteira, lblEndereco,
                 txtEndereco, lblTelefone, txtTelefone, btnIncluir);
 
-        Scene scene = new Scene(vbox, 400, 300);
+        Scene scene = new Scene(vbox, 500, 400);
         stage.setScene(scene);
         stage.show();
     }
 
-
+    /**
+     * Exibe a tela para alteração de um cliente existente.
+     */
     private void exibeTelaAlterarCliente() {
         Stage stage = new Stage();
         stage.setTitle("Alterar Cliente");
@@ -117,13 +140,15 @@ public class GUIconsoleCliente {
             try {
                 long cpf = Long.parseLong(txtCPF.getText());
                 exibeTelaAlteracaoCliente(cpf);
-                stage.close();
-            } catch (NumberFormatException ex) {
-                System.out.println("CPF inválido! Digite apenas números.");
-            } catch (ClienteNaoEncontradoException ex) {
-                System.out.println(ex.getMessage());
-            }
-        });
+            stage.close();
+        } catch (NumberFormatException ex) {
+            System.out.println("CPF inválido! Digite apenas números.");
+            exibirMensagem("Erro", "CPF inválido! Digite apenas números.");
+        } catch (ClienteNaoEncontradoException ex) {
+            System.out.println(ex.getMessage());
+            exibirMensagem("Erro", ex.getMessage());
+        }
+    });
 
         vbox.getChildren().addAll(lblCPF, txtCPF, btnConsultar);
 
@@ -180,6 +205,10 @@ public class GUIconsoleCliente {
         stage.show();
     }
 
+
+   /**
+     * Exibe a tela para consultar as informações de um cliente.
+     */ 
     private void exibeTelaConsultarCliente() {
         Stage stage = new Stage();
         stage.setTitle("Consultar Cliente");
@@ -198,24 +227,41 @@ public class GUIconsoleCliente {
                 
                 long cpf = Long.parseLong(txtCPF.getText());
                 String info = gerenciadorClientes.getInfo(cpf);
-                if (info == null) {
-                    System.out.println("Cliente não encontrado!");
-                } else {
-                    System.out.println("Informações do cliente:\n" + info);
-                }
-                stage.close();
-            } catch (NumberFormatException ex) {
-                System.out.println("CPF inválido! Digite apenas números.");
-            } catch (ClienteNaoEncontradoException e1) {
-                // TODO Auto-generated catch block
-                e1.getMessage();
+            if (info == null) {
+                System.out.println("Cliente não encontrado!");
+                exibirMensagem("Erro", "Cliente não encontrado!");
+            } else {
+                System.out.println("Informações do cliente:\n" + info);
+                exibirMensagem("Informações do Cliente", "Informações do cliente:\n" + info);
             }
-        });
+            stage.close();
+        } catch (NumberFormatException ex) {
+            System.out.println("CPF inválido! Digite apenas números.");
+            exibirMensagem("Erro", "CPF inválido! Digite apenas números.");
+        } catch (ClienteNaoEncontradoException e1) {
+            e1.getMessage();
+            exibirMensagem("Erro", e1.getMessage());
+        }
+    });
 
         vbox.getChildren().addAll(lblCPF, txtCPF, btnConsultar);
 
-        Scene scene = new Scene(vbox, 300, 200);
+        Scene scene = new Scene(vbox, 500, 200);
         stage.setScene(scene);
         stage.show();
     }
+
+     /**
+     * Exibe uma mensagem de diálogo.
+     *
+     * @param titulo   o título da mensagem
+     * @param mensagem a mensagem a ser exibida
+     */
+    private void exibirMensagem(String titulo, String mensagem) {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle(titulo);
+    alert.setHeaderText(null);
+    alert.setContentText(mensagem);
+    alert.showAndWait();
+}
 }

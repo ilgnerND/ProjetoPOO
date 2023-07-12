@@ -28,7 +28,12 @@ public class Carro extends Veiculo {
 
     @Override
     public String toString() {
-        return "Carro [placa= " + placa + ", ano= " + ano + ", valorDiaria= " + valorDiaria +" mediaKmPorLitro=" + mediaKmPorLitro + ", arCondicionado=" + arCondicionado + "]";
+        return "Carro :\n" + //
+                " placa= " + placa + ";\n ano= " + ano + ";\n" + //
+                " valorDiaria= " + valorDiaria +";\n" + //
+                        " mediaKmPorLitro=" + mediaKmPorLitro + ";\n" + //
+                                " arCondicionado=" + arCondicionado + ";\n" + //
+                                        "";
     }
 
     

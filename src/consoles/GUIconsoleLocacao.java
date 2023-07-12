@@ -52,7 +52,7 @@ public class GUIconsoleLocacao{
         Button voltarButton = new Button("Voltar");
 
         // Adiciona os componentes ao layout principal
-        mainLayout.getChildren().addAll(titleLabel, incluirButton, alterarButton, capturarButton);
+        mainLayout.getChildren().addAll(titleLabel, incluirButton, alterarButton, capturarButton,voltarButton);
 
         // Event handlers
         incluirButton.setOnAction(e -> showIncluirLocacaoDialog());
@@ -134,13 +134,14 @@ public class GUIconsoleLocacao{
             throw new VeiculoNaoEncontradoException("Veículo não encontrado.");
         }
 
-        Locacao locacao = new Locacao(0, cliente, veiculo, inicio, termino);
+        Locacao locacao = new Locacao(cliente, veiculo, inicio, termino);
         locacoes.add(locacao);
-        System.out.println("Locação cadastrada com sucesso.");
+        System.out.println("Locação cadastrada com sucesso. Código Locação: "+ locacao.getCodigo());
     }
 
-    private void showAlterarLocacaoDialog() {
-        // Cria uma nova janela
+
+private void showAlterarLocacaoDialog() {
+    // Cria uma nova janela
     Stage dialogStage = new Stage();
     dialogStage.setTitle("Alterar Locação");
 
@@ -164,8 +165,8 @@ public class GUIconsoleLocacao{
     // Event handler do botão de alteração
     alterarButton.setOnAction(e -> {
         try {
-            alterarLocacao(Integer.parseInt(codigoTextField.getText()));
-            dialogStage.close();
+            int codigo = Integer.parseInt(codigoTextField.getText());
+            alterarLocacao(codigo, dialogStage);
         } catch (NumberFormatException ex) {
             showErrorDialog("Erro", "Código da locação inválido.");
         } catch (LocacaoInvalidaException ex) {
@@ -177,16 +178,52 @@ public class GUIconsoleLocacao{
     Scene dialogScene = new Scene(layout, 300, 150);
     dialogStage.setScene(dialogScene);
     dialogStage.show();
-    }
-    private void alterarLocacao(int codigo) throws LocacaoInvalidaException {
+}
+
+private void alterarLocacao(int codigo, Stage dialogStage) throws LocacaoInvalidaException {
     Locacao locacao = buscarLocacaoPorCodigo(codigo);
     if (locacao == null) {
-        throw new LocacaoInvalidaException("Locação não encontrada.");
+        showErrorDialog("Erro", "Locação não encontrada.");
+        return;
     }
 
-    // TODO: Implemente a lógica para alterar a locação
+    // Cria um layout para exibir os componentes de alteração
+    VBox alterarLayout = new VBox(10);
+    alterarLayout.setAlignment(Pos.CENTER);
+    alterarLayout.setPadding(new Insets(10));
 
-    System.out.println("Locação alterada com sucesso.");
+    // Componentes para alterar as datas de início e término
+    Label clienteLabel = new Label("Cliente: " + locacao.getCliente().getNome());
+    Label veiculoLabel = new Label("Veículo: " + locacao.getVeiculo().toString());
+    Label inicioLabel = new Label("Data de início atual: " + locacao.getDataInicial());
+    Label terminoLabel = new Label("Data de término atual: " + locacao.getDataFinal());
+    Label novaInicioLabel = new Label("Nova data de início (yyyy-MM-dd):");
+    DatePicker novaInicioPicker = new DatePicker();
+    Label novaTerminoLabel = new Label("Nova data de término (yyyy-MM-dd):");
+    DatePicker novaTerminoPicker = new DatePicker();
+    Button confirmarButton = new Button("Confirmar");
+
+    // Adiciona os componentes ao layout
+    alterarLayout.getChildren().addAll(clienteLabel, veiculoLabel, inicioLabel, terminoLabel,
+            novaInicioLabel, novaInicioPicker, novaTerminoLabel, novaTerminoPicker, confirmarButton);
+
+    // Event handler do botão de confirmar
+    confirmarButton.setOnAction(e -> {
+        LocalDate novaDataInicio = novaInicioPicker.getValue();
+        LocalDate novaDataTermino = novaTerminoPicker.getValue();
+        if (novaDataInicio == null || novaDataTermino == null) {
+            showErrorDialog("Erro", "Selecione as novas datas de início e término.");
+        } else {
+            locacao.setDataInicial(novaDataInicio);
+            locacao.setDataFinal(novaDataTermino);
+            dialogStage.close();
+            showSuccessDialog("Sucesso", "Locação alterada com sucesso.");
+        }
+    });
+
+    // Cria a cena com o layout de alteração
+    Scene alterarScene = new Scene(alterarLayout, 400, 300);
+    dialogStage.setScene(alterarScene);
 }
 
     private void showCapturarDadosLocacaoDialog() {
@@ -213,32 +250,59 @@ public class GUIconsoleLocacao{
 
     // Event handler do botão de captura
     capturarButton.setOnAction(e -> {
-        try {
-            capturarDadosLocacao(Integer.parseInt(codigoTextField.getText()));
-            dialogStage.close();
-        } catch (NumberFormatException ex) {
-            showErrorDialog("Erro", "Código da locação inválido.");
-        }
-    });
+    try {
+        capturarDadosLocacao(Integer.parseInt(codigoTextField.getText()), dialogStage);
+    } catch (NumberFormatException ex) {
+        showErrorDialog("Erro", "Código da locação inválido.");
+    }
+});
 
     // Cria a cena do diálogo
     Scene dialogScene = new Scene(layout, 300, 150);
     dialogStage.setScene(dialogScene);
     dialogStage.show();
 }
-    private void capturarDadosLocacao(int codigo) {
+
+private void capturarDadosLocacao(int codigo, Stage dialogStage) {
+    Locacao locacao = buscarLocacaoPorCodigo(codigo);
+    if (locacao == null) {
+        showErrorDialog("Erro", "Locação não encontrada.");
+        return;
+    }
+
+    // Cria um layout para exibir as informações
+    VBox infoLayout = new VBox(10);
+    infoLayout.setAlignment(Pos.CENTER);
+    infoLayout.setPadding(new Insets(10));
+
+    // Componentes para exibir as informações
+    Label clienteLabel = new Label("Cliente: " + locacao.getCliente().getNome());
+    Label veiculoLabel = new Label("Veículo: " + locacao.getVeiculo().toString());
+    Label inicioLabel = new Label("Data de início: " + locacao.getDataInicial());
+    Label terminoLabel = new Label("Data de término: " + locacao.getDataFinal());
+    Button closeButton = new Button("Fechar");
+
+    // Adiciona os componentes ao layout
+    infoLayout.getChildren().addAll(clienteLabel, veiculoLabel, inicioLabel, terminoLabel, closeButton);
+
+    // Event handler do botão Fechar
+    closeButton.setOnAction(e -> dialogStage.close());
+
+    // Cria a cena com o layout das informações
+    Scene infoScene = new Scene(infoLayout, 500, 350);
+    dialogStage.setScene(infoScene);
+}
+
+
+/* private void capturarDadosLocacao(int codigo) {
     Locacao locacao = buscarLocacaoPorCodigo(codigo);
     if (locacao == null) {
         System.out.println("Locação não encontrada.");
         return;
     }
 
-    System.out.println("Dados da locação:");
-    System.out.println("Cliente: " + locacao.getCliente().getNome());
-    System.out.println("Veículo: " + locacao.getVeiculo().toString());
-    System.out.println("Data de início: " + locacao.getDataInicial());
-    System.out.println("Data de fim: " + locacao.getDataFinal());
-}
+    System.out.println("Dados da locação:" + locacao.toString());
+} */
 
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -248,6 +312,14 @@ public class GUIconsoleLocacao{
         alert.showAndWait();
     }
 
+    private void showSuccessDialog(String title, String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+}
+
     private Locacao buscarLocacaoPorCodigo(int codigo) {
     for (Locacao locacao : locacoes) {
         if (locacao.getCodigo() == codigo) {
@@ -256,5 +328,24 @@ public class GUIconsoleLocacao{
     }
     return null;
 }
+
+/* private void listarLocacoesRegistradas() {
+    if (locacoes.isEmpty()) {
+        if (locacoes == null) {
+        try {
+            throw new LocacaoInvalidaException("Locação não encontrada.");
+        } catch (LocacaoInvalidaException e) {
+            // TODO Auto-generated catch block
+            e.getMessage();
+        }
+    }
+    }
+
+    System.out.println("Locações registradas:");
+    for (Locacao locacao : locacoes) {
+        System.out.println("Código: " + locacao.getCodigo());
+    }
+} */
+
 }
 

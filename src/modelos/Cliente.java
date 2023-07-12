@@ -71,8 +71,13 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente [nome=" + nome + ", cpf=" + cpf + ", numCarteiraMotorista=" + numCarteiraMotorista
-                + ", endereco=" + endereco + ", telefone=" + telefone + "]";
+        return "Cliente : \n" + //
+                "nome=" + nome + ",\n" + //
+                        " cpf=" + cpf + ",\n" + //
+                                " numCarteiraMotorista=" + numCarteiraMotorista
+                + ",\n" + //
+                        " endereco=" + endereco + ",\n" + //
+                                " telefone=" + telefone + "!";
     }
 
     

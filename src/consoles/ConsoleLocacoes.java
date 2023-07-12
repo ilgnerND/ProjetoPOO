@@ -125,9 +125,8 @@ public class ConsoleLocacoes {
         int codigo = scanner.nextInt();
         Locacao locacao = locacoes.get(codigo);
         if (locacao == null) {
-            System.out.println("Locação não encontrada.");
-            return;
-        }
+        throw new LocacaoInvalidaException("Locação não encontrada.");
+    }
 
         // Solicita e lê as novas datas de início e término da locação
         System.out.println("Informe a data de início da locação (yyyy-MM-dd):");

@@ -63,11 +63,15 @@ public class GUIconsoleVeiculos {
         GridPane.setConstraints(buttonListar, 0, 4);
         buttonListar.setOnAction(e -> showListarVeiculos());
 
-        grid.getChildren().addAll(labelMenu, buttonIncluir, buttonAlterar, buttonCapturar, buttonListar);
+        Button buttonVoltar = new Button("Voltar");
+    GridPane.setConstraints(buttonVoltar, 0, 5);
+    buttonVoltar.setOnAction(e -> stage.close());
 
-        Scene scene = new Scene(grid, 300, 200);
-        stage.setScene(scene);
-        stage.show();
+    grid.getChildren().addAll(labelMenu, buttonIncluir, buttonAlterar, buttonCapturar, buttonListar, buttonVoltar);
+
+    Scene scene = new Scene(grid, 300, 200);
+    stage.setScene(scene);
+    stage.show();
     }
 
     private void showIncluirVeiculo() {
