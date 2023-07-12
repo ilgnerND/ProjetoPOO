@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Classe responsável por exibir a interface gráfica da locadora de veículos.
+ */
 public class LocadoraVeiculosGUI extends Application {
     Veiculos veiculos = new Veiculos();
     GerenciadorClientes gcliente = new GerenciadorClientes();
@@ -17,9 +20,12 @@ public class LocadoraVeiculosGUI extends Application {
 
     GUIconsoleCliente consoleClientes = new GUIconsoleCliente(gcliente);
     GUIconsoleLocacao consoleLocacoes = new GUIconsoleLocacao(gcliente, veiculos);
-    //ConsoleVeiculos consoleVeiculos = new ConsoleVeiculos(veiculos);
     GUIconsoleVeiculos consoleVeiculos = new GUIconsoleVeiculos(veiculos);
 
+    
+    /** 
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Locadora de Veículos");

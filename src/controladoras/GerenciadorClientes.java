@@ -16,6 +16,11 @@ public class GerenciadorClientes implements IClientes {
         this.clientes = new ArrayList<>();
     }
 
+    
+    /** 
+     * @param c
+     * @throws ClienteExistenteException
+     */
     @Override
     public void add(Cliente c) throws ClienteExistenteException {
         if (existe(c.getCpf())) {

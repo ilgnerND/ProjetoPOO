@@ -1,7 +1,4 @@
 package modelos;
-
-//import javafx.scene.control.TextField;
-
 public class Cliente {
     private String nome;
     private long cpf;
@@ -17,16 +14,8 @@ public class Cliente {
         this.telefone = telefone;
     } 
 
-    //getters e setters
-/* 
-    public Cliente(TextField nome, TextField cpf, TextField numCarteiraMotorista, TextField endereco,
-            TextField telefone) {
-                this.nome = nome;
-                this.cpf = cpf;
-                this.numCarteiraMotorista = numCarteiraMotorista;
-                this.endereco = endereco;
-                this.telefone = telefone;
-    } */
+    
+    
 
     public String getNome() {
         return nome;

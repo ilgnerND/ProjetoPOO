@@ -26,6 +26,10 @@ public class Locacao {
     this.dataFinal = datfinal;
 }
 
+    
+    /** 
+     * @return int
+     */
     public int getCodigo() {
         return codigo;
     }

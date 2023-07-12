@@ -157,6 +157,11 @@ public class GUIconsoleCliente {
         stage.show();
     }
 
+    
+    /** 
+     * @param cpf
+     * @throws ClienteNaoEncontradoException
+     */
     private void exibeTelaAlteracaoCliente(long cpf) throws ClienteNaoEncontradoException {
         Stage stage = new Stage();
         stage.setTitle("Alteração de Cliente");

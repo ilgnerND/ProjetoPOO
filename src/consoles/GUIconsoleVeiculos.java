@@ -1,24 +1,18 @@
 package consoles;
 
-//import excecoes.clienteexcecao.ClienteExistenteException;
-//import excecoes.clienteexcecao.ClienteNaoEncontradoException;
 import excecoes.veiculosececao.ColecaoVaziaException;
 import excecoes.veiculosececao.VeiculoExistenteException;
 import excecoes.veiculosececao.VeiculoNaoEncontradoException;
-//import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-//import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-////import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelos.Carro;
 import modelos.Onibus;
@@ -26,15 +20,24 @@ import modelos.Veiculo;
 import controladoras.IVeiculos;
 
 //import java.util.InputMismatchException;
-
+/**
+ * Classe responsável por exibir uma interface de usuário (GUI) console para operações de veículos.
+ */
 public class GUIconsoleVeiculos {
     private IVeiculos veiculos;
 
+    /**
+     * Construtor da classe GUIconsoleVeiculos.
+     *
+     * @param veiculos O objeto IVeiculos a ser utilizado para gerenciar os veículos.
+     */
     public GUIconsoleVeiculos(IVeiculos veiculos) {
         this.veiculos = veiculos;
     }
 
-    
+    /**
+     * Exibe o menu de veículos.
+     */
     public void exibeMenuVeiculo() {
         Stage stage = new Stage();
         stage.setTitle("Cadastro de Veículos");
@@ -74,6 +77,9 @@ public class GUIconsoleVeiculos {
     stage.show();
     }
 
+    /**
+     * Exibe um diálogo para incluir um novo veículo.
+     */
     private void showIncluirVeiculo() {
      Stage stage = new Stage();
     stage.setTitle("Inclusão de Veículo");
@@ -200,6 +206,9 @@ public class GUIconsoleVeiculos {
     stage.show();
 }
 
+/**
+     * Exibe um diálogo para alterar um veículo existente.
+     */
 private void showAlterarVeiculo() {
     Stage stage = new Stage();
     stage.setTitle("Alteração de Veículo");
@@ -292,6 +301,9 @@ private void showAlterarVeiculo() {
     stage.show();
 }
 
+/**
+     * Exibe um diálogo para capturar informações de veículos.
+     */
 private void showCapturarVeiculos() {
     Stage stage = new Stage();
     stage.setTitle("Captura de Veículos");
@@ -341,6 +353,9 @@ private void showCapturarVeiculos() {
     stage.show();
 }
 
+/**
+     * Exibe a lista de veículos cadastrados.
+     */
 private void showListarVeiculos() {
     String info;
     try {

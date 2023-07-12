@@ -12,6 +12,10 @@ public class Onibus extends Veiculo {
         this.categoria = categoria;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getNumeroPassageiros() {
         return numeroPassageiros;
     }

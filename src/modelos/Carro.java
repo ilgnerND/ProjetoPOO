@@ -10,6 +10,10 @@ public class Carro extends Veiculo {
         this.arCondicionado = arCondicionado;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMediaKmPorLitro() {
         return mediaKmPorLitro;
     }

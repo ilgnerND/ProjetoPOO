@@ -13,10 +13,19 @@ public class Veiculos implements IVeiculos {
 
     private List<Veiculo> veiculos;
 
+    /**
+     * Construtor padrão da classe Veiculos.
+     * Inicializa a lista de veículos.
+     */
     public Veiculos() {
         veiculos = new ArrayList<>();
     }
 
+    
+    /** 
+     * @param v
+     * @throws VeiculoExistenteException
+     */
     @Override
     public void add(Veiculo v) throws VeiculoExistenteException {
         if (existe(v.getPlaca())) {

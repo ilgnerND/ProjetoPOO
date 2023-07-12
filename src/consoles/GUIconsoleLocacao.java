@@ -8,7 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-//import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelos.Cliente;
@@ -21,11 +20,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Uma classe GUI console para gerenciar operações de locação.
+ */
 public class GUIconsoleLocacao{
     private GerenciadorClientes gerenciadorClientes;
     private IVeiculos veiculos;
     private List<Locacao> locacoes;
 
+    /**
+     * Constrói um objeto GUIconsoleLocacao com o GerenciadorClientes e IVeiculos especificados.
+     *
+     * @param gerenciadorClientes O objeto GerenciadorClientes a ser usado para gerenciar os clientes.
+     * @param veiculos            O objeto IVeiculos a ser usado para gerenciar os veículos.
+     */
     public GUIconsoleLocacao(GerenciadorClientes gerenciadorClientes, IVeiculos veiculos) {
         this.gerenciadorClientes = gerenciadorClientes; // Substitua pela implementação real
         this.veiculos = veiculos; // Substitua pela implementação real
@@ -33,7 +41,9 @@ public class GUIconsoleLocacao{
     }
 
 
-    
+    /**
+     * Exibe o menu de locação.
+     */
     public void exibeMenuLocacao() {
         Stage stage = new Stage();
         stage.setTitle("Cadastro de Locações");
@@ -66,6 +76,9 @@ public class GUIconsoleLocacao{
         stage.show();
     }
 
+    /**
+     * Exibe um diálogo para incluir uma nova locação.
+     */
     private void showIncluirLocacaoDialog() {
         // Cria uma nova janela
         Stage dialogStage = new Stage();
@@ -122,6 +135,16 @@ public class GUIconsoleLocacao{
         dialogStage.show();
     }
 
+    /**
+     * Inclui uma nova locação com os detalhes especificados.
+     *
+     * @param cpf     O CPF do cliente.
+     * @param placa   A placa do veículo.
+     * @param inicio  A data de início da locação.
+     * @param termino A data de término da locação.
+     * @throws ClienteNaoEncontradoException   Se o cliente não for encontrado.
+     * @throws VeiculoNaoEncontradoException  Se o veículo não for encontrado.
+     */
     private void incluirLocacao(long cpf, String placa, LocalDate inicio, LocalDate termino)
             throws ClienteNaoEncontradoException, VeiculoNaoEncontradoException {
         Cliente cliente = gerenciadorClientes.get(cpf);
@@ -139,7 +162,9 @@ public class GUIconsoleLocacao{
         System.out.println("Locação cadastrada com sucesso. Código Locação: "+ locacao.getCodigo());
     }
 
-
+/**
+     * Exibe um diálogo para alterar uma locação existente.
+     */
 private void showAlterarLocacaoDialog() {
     // Cria uma nova janela
     Stage dialogStage = new Stage();
@@ -180,6 +205,13 @@ private void showAlterarLocacaoDialog() {
     dialogStage.show();
 }
 
+/**
+     * Altera a locação com o código especificado.
+     *
+     * @param codigo        O código da locação a ser alterada.
+     * @param dialogStage   O estágio do diálogo.
+     * @throws LocacaoInvalidaException    Se a locação for inválida.
+     */
 private void alterarLocacao(int codigo, Stage dialogStage) throws LocacaoInvalidaException {
     Locacao locacao = buscarLocacaoPorCodigo(codigo);
     if (locacao == null) {
@@ -226,6 +258,9 @@ private void alterarLocacao(int codigo, Stage dialogStage) throws LocacaoInvalid
     dialogStage.setScene(alterarScene);
 }
 
+/**
+     * Exibe um diálogo para capturar os dados de uma locação existente.
+     */
     private void showCapturarDadosLocacaoDialog() {
         // Cria uma nova janela
     Stage dialogStage = new Stage();
@@ -263,6 +298,12 @@ private void alterarLocacao(int codigo, Stage dialogStage) throws LocacaoInvalid
     dialogStage.show();
 }
 
+/**
+     * Captura e exibe os dados da locação com o código especificado.
+     *
+     * @param codigo        O código da locação para capturar os dados.
+     * @param dialogStage   O estágio do diálogo.
+     */
 private void capturarDadosLocacao(int codigo, Stage dialogStage) {
     Locacao locacao = buscarLocacaoPorCodigo(codigo);
     if (locacao == null) {
@@ -294,16 +335,12 @@ private void capturarDadosLocacao(int codigo, Stage dialogStage) {
 }
 
 
-/* private void capturarDadosLocacao(int codigo) {
-    Locacao locacao = buscarLocacaoPorCodigo(codigo);
-    if (locacao == null) {
-        System.out.println("Locação não encontrada.");
-        return;
-    }
-
-    System.out.println("Dados da locação:" + locacao.toString());
-} */
-
+/**
+     * Exibe um diálogo de erro com o título e a mensagem especificados.
+     *
+     * @param title   O título do diálogo de erro.
+     * @param message A mensagem a ser exibida no diálogo de erro.
+     */
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -312,6 +349,12 @@ private void capturarDadosLocacao(int codigo, Stage dialogStage) {
         alert.showAndWait();
     }
 
+    /**
+     * Exibe um diálogo de sucesso com o título e a mensagem especificados.
+     *
+     * @param title   O título do diálogo de sucesso.
+     * @param message A mensagem a ser exibida no diálogo de sucesso.
+     */
     private void showSuccessDialog(String title, String message) {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle(title);
@@ -320,6 +363,12 @@ private void capturarDadosLocacao(int codigo, Stage dialogStage) {
     alert.showAndWait();
 }
 
+    /**
+     * Procura uma locação com o código especificado.
+     *
+     * @param codigo O código da locação a ser pesquisada.
+     * @return O objeto Locacao com o código especificado, ou null se não encontrado.
+     */
     private Locacao buscarLocacaoPorCodigo(int codigo) {
     for (Locacao locacao : locacoes) {
         if (locacao.getCodigo() == codigo) {
@@ -328,24 +377,5 @@ private void capturarDadosLocacao(int codigo, Stage dialogStage) {
     }
     return null;
 }
-
-/* private void listarLocacoesRegistradas() {
-    if (locacoes.isEmpty()) {
-        if (locacoes == null) {
-        try {
-            throw new LocacaoInvalidaException("Locação não encontrada.");
-        } catch (LocacaoInvalidaException e) {
-            // TODO Auto-generated catch block
-            e.getMessage();
-        }
-    }
-    }
-
-    System.out.println("Locações registradas:");
-    for (Locacao locacao : locacoes) {
-        System.out.println("Código: " + locacao.getCodigo());
-    }
-} */
-
 }
 

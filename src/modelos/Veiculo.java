@@ -34,6 +34,10 @@ public abstract class Veiculo {
         return placa;
     }
 
+    
+    /** 
+     * @param placa
+     */
     public void setPlaca(String placa) {
         this.placa = placa;
     }
